@@ -1,4 +1,5 @@
-// Types d'utilisateurs
+
+// Correction des types en évitant le double export
 export type UserRole = "AdminAgence" | "ClientEditor";
 
 export interface UserRoleAssignment {
@@ -24,14 +25,13 @@ export interface Site {
 
 // Pages
 export type PageType = "home" | "about" | "services" | "contact" | "custom";
-
 export interface Page {
   id: string;
   site_id: string;
   type: PageType;
   title: string;
   slug: string;
-  content: Record<string, any>; // JSON contenu
+  content: Record<string, any>;
   meta_title?: string;
   meta_description?: string;
   og_image_url?: string;
@@ -47,7 +47,7 @@ export interface Post {
   title: string;
   slug: string;
   summary?: string;
-  content: string; // Markdown
+  content: string;
   cover_image_url?: string;
   author_id: string;
   meta_title?: string;
