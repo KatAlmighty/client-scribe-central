@@ -18,6 +18,9 @@ import ClientDashboard from "@/pages/client/Dashboard";
 import ClientPosts from "@/pages/client/Posts";
 import PostEditor from "@/pages/client/PostEditor";
 
+// API Endpoints
+import ApiPosts from "@/pages/api/posts";
+
 // Page 404
 import NotFound from "@/pages/NotFound";
 
@@ -43,6 +46,9 @@ const App = () => (
           <Route path="/client" element={<ClientDashboard />} />
           <Route path="/client/posts" element={<ClientPosts />} />
           <Route path="/client/posts/:postId" element={<PostEditor />} />
+          
+          {/* API routes */}
+          <Route path="/api/:siteSlug/posts" element={<ApiPosts />} />
           
           {/* 404 */}
           <Route path="*" element={<NotFound />} />

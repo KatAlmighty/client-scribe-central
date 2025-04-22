@@ -1,3 +1,4 @@
+
 // Types d'utilisateurs
 export type UserRole = "AdminAgence" | "ClientEditor";
 

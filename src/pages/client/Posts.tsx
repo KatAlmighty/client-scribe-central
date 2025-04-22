@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ClientLayout from "@/components/layouts/ClientLayout";
 import { Button } from "@/components/ui/button";
@@ -14,30 +14,39 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Eye, EyeOff, Edit, Trash, Plus, Search } from "lucide-react";
+import { getPostsBySiteId } from "@/services/postService";
+import { Post } from "@/types";
 
 export default function ClientPosts() {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [posts, setPosts] = useState<Post[]>([]);
+  
+  // Dans une app réelle, nous récupérerions ces informations de Supabase Auth
+  const currentUser = {
+    id: "current-user-id",
+    siteId: "1", // Le site auquel l'utilisateur a accès
+  };
   
   // Dans une app réelle, nous chargerions les données du site avec React Query
   const site = {
     name: "Café des Artistes",
+    id: currentUser.siteId,
   };
   
-  // Données fictives pour la démo
-  const allPosts = [
-    { id: "1", title: "Nouveaux ateliers créatifs pour enfants", slug: "ateliers-creatifs-enfants", published: true, views: 187, date: "2023-04-15" },
-    { id: "2", title: "Exposition photo du mois de mai", slug: "exposition-photo-mai", published: true, views: 124, date: "2023-04-10" },
-    { id: "3", title: "Concert acoustique: programmation été 2023", slug: "programmation-ete-2023", published: false, views: 0, date: "2023-04-05" },
-    { id: "4", title: "Nouveau menu vegan disponible", slug: "menu-vegan", published: true, views: 89, date: "2023-03-28" },
-    { id: "5", title: "Interview avec l'artiste du mois", slug: "interview-artiste", published: false, views: 0, date: "2023-03-20" },
-    { id: "6", title: "Horaires spéciaux pendant les vacances", slug: "horaires-vacances", published: true, views: 76, date: "2023-03-15" },
-    { id: "7", title: "Retour sur la soirée poésie", slug: "soiree-poesie", published: true, views: 45, date: "2023-03-10" },
-    { id: "8", title: "Appel aux artistes locaux", slug: "appel-artistes", published: false, views: 0, date: "2023-03-05" },
-  ];
+  // Charger les articles de l'utilisateur courant
+  useEffect(() => {
+    // Dans une vraie app, nous utiliserions useQuery de @tanstack/react-query
+    const loadPosts = async () => {
+      const userPosts = getPostsBySiteId(currentUser.siteId);
+      setPosts(userPosts);
+    };
+    
+    loadPosts();
+  }, [currentUser.siteId]);
   
   // Filtrage des articles
-  const filteredPosts = allPosts.filter(post => {
+  const filteredPosts = posts.filter(post => {
     // Filtre par titre
     const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase());
     
@@ -103,11 +112,11 @@ export default function ClientPosts() {
                       <Badge variant={post.published ? "default" : "outline"} className="text-xs">
                         {post.published ? "Publié" : "Brouillon"}
                       </Badge>
-                      <span>{new Date(post.date).toLocaleDateString()}</span>
+                      <span>{new Date(post.created_at).toLocaleDateString()}</span>
                       {post.published && (
                         <span className="flex items-center">
                           <Eye size={12} className="mr-1" />
-                          {post.views} vues
+                          {post.view_count} vues
                         </span>
                       )}
                     </div>
