@@ -13,7 +13,7 @@ import {
   DropdownMenuItem, 
   DropdownMenuSeparator 
 } from "@/components/ui/dropdown-menu";
-import { Plus, MoreVertical, Edit, Trash, ExternalLink, Copy, Users } from "lucide-react";
+import { Plus, MoreVertical, Edit, Trash, ExternalLink, Copy, Users, Link as LinkIcon } from "lucide-react";
 
 export default function Sites() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -28,7 +28,8 @@ export default function Sites() {
       description: "Café & espace culturel au cœur de Paris",
       postsCount: 12,
       clientName: "Marie Dubois",
-      createdAt: "2023-01-15"
+      createdAt: "2023-01-15",
+      frontend_project_url: "https://cafe-des-artistes.lovable.app"
     },
     { 
       id: "2", 
@@ -38,7 +39,8 @@ export default function Sites() {
       description: "Studio de yoga et bien-être",
       postsCount: 8,
       clientName: "Sophie Legrand",
-      createdAt: "2023-02-20"
+      createdAt: "2023-02-20",
+      frontend_project_url: ""
     },
     { 
       id: "3", 
@@ -48,7 +50,8 @@ export default function Sites() {
       description: "Artisan menuisier depuis 1980",
       postsCount: 5,
       clientName: "Jean Dupont",
-      createdAt: "2023-03-10"
+      createdAt: "2023-03-10",
+      frontend_project_url: ""
     },
     { 
       id: "4", 
@@ -58,7 +61,8 @@ export default function Sites() {
       description: "Fleuriste artisanal et compositions",
       postsCount: 7,
       clientName: "Rose Martin",
-      createdAt: "2023-01-05"
+      createdAt: "2023-01-05",
+      frontend_project_url: "https://roses.lovable.app"
     },
   ];
   
@@ -153,6 +157,27 @@ export default function Sites() {
                   <div className="flex items-center text-sm">
                     <span className="font-medium text-slate-500 w-24">Articles:</span>
                     <span>{site.postsCount} articles</span>
+                  </div>
+                  {/* Colonne Projet frontend lié */}
+                  <div className="flex items-center text-sm">
+                    <span className="font-medium text-slate-500 w-24 flex items-center gap-1">
+                      <LinkIcon size={14} />
+                      Frontend :
+                    </span>
+                    {site.frontend_project_url 
+                      ? (
+                        <a
+                          href={site.frontend_project_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center text-green-700 hover:underline gap-1"
+                        >
+                          Oui
+                          <ExternalLink size={14} className="ml-1" />
+                        </a>
+                      )
+                      : <span className="text-slate-400">Non</span>
+                    }
                   </div>
                 </div>
               </CardContent>

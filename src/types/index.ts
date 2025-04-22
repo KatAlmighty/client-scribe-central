@@ -1,4 +1,3 @@
-
 // Types d'utilisateurs
 export type UserRole = "AdminAgence" | "ClientEditor";
 
@@ -18,6 +17,7 @@ export interface Site {
   logo_url?: string;
   domain?: string;
   description?: string;
+  frontend_project_url?: string; // Ajout pour lien vers frontend Lovable
   created_at: string;
   updated_at: string;
 }

@@ -1,5 +1,4 @@
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import AdminLayout from "@/components/layouts/AdminLayout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -8,33 +7,37 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus, ExternalLink, User, Mail, Eye, EyeOff, Edit, ArrowRight } from "lucide-react";
+import { Plus, ExternalLink, User, Mail, Eye, EyeOff, Edit, ArrowRight, Link as LinkIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 export default function SiteDetail() {
   const { siteId } = useParams<{ siteId: string }>();
   const [activeTab, setActiveTab] = useState("general");
-  
-  // Dans une app réelle, nous chargerions les données du site avec React Query
+  const [frontendUrl, setFrontendUrl] = useState("");
+
   const site = {
     id: siteId,
     name: "Café des Artistes",
     slug: "cafe-des-artistes",
     domain: "cafe-artistes.fr",
     description: "Café & espace culturel au cœur de Paris proposant des expositions, concerts et ateliers créatifs.",
+    frontend_project_url: "https://cafe-des-artistes.lovable.app",
     createdAt: "2023-01-15",
     clientName: "Marie Dubois",
     clientEmail: "marie@cafe-artistes.fr",
   };
-  
-  // Données fictives pour la démo
+
+  useEffect(() => {
+    setFrontendUrl(site.frontend_project_url ?? "");
+  }, [site.frontend_project_url]);
+
   const pages = [
     { id: "1", title: "Accueil", slug: "/", published: true, lastUpdated: "2023-04-01" },
     { id: "2", title: "À propos", slug: "/a-propos", published: true, lastUpdated: "2023-04-02" },
     { id: "3", title: "Services", slug: "/services", published: true, lastUpdated: "2023-04-03" },
     { id: "4", title: "Contact", slug: "/contact", published: true, lastUpdated: "2023-04-04" },
   ];
-  
+
   const posts = [
     { id: "1", title: "Nouveaux ateliers créatifs pour enfants", slug: "/blog/ateliers-creatifs-enfants", published: true, date: "2023-04-15", author: "Marie Dubois" },
     { id: "2", title: "Exposition photo du mois de mai", slug: "/blog/exposition-photo-mai", published: true, date: "2023-04-10", author: "Marie Dubois" },
@@ -57,6 +60,14 @@ export default function SiteDetail() {
                 Visiter le site
               </a>
             </Button>
+            {frontendUrl && (
+              <Button variant="outline" size="sm" asChild>
+                <a href={frontendUrl} target="_blank" rel="noopener noreferrer">
+                  <LinkIcon size={14} className="mr-1" />
+                  Ouvrir le site frontend
+                </a>
+              </Button>
+            )}
             <Button size="sm">
               Sauvegarder les modifications
             </Button>
@@ -71,7 +82,6 @@ export default function SiteDetail() {
             <TabsTrigger value="users">Utilisateurs</TabsTrigger>
           </TabsList>
           
-          {/* Onglet Général */}
           <TabsContent value="general" className="space-y-4 pt-4">
             <Card>
               <CardHeader>
@@ -107,11 +117,34 @@ export default function SiteDetail() {
                     <Input id="seo-description" defaultValue={site.description?.substring(0, 160)} />
                   </div>
                 </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="frontend-url">URL projet frontend (Lovable)</Label>
+                  <div className="flex gap-2">
+                    <Input
+                      id="frontend-url"
+                      placeholder="https://mon-projet-frontend.lovable.app"
+                      value={frontendUrl}
+                      onChange={e => setFrontendUrl(e.target.value)}
+                    />
+                    {frontendUrl && (
+                      <Button variant="outline" asChild>
+                        <a href={frontendUrl} target="_blank" rel="noopener noreferrer">
+                          <ExternalLink size={16} className="mr-1" />
+                          Ouvrir
+                        </a>
+                      </Button>
+                    )}
+                  </div>
+                  <p className="text-xs text-slate-500">
+                    Lien vers le projet Lovable servant de frontend public.<br />
+                    Laissez vide si aucun n'est lié pour l'instant.
+                  </p>
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
           
-          {/* Onglet Pages */}
           <TabsContent value="pages" className="space-y-4 pt-4">
             <div className="flex justify-between items-center">
               <h3 className="text-lg font-medium">Pages du site</h3>
@@ -150,7 +183,6 @@ export default function SiteDetail() {
             </Card>
           </TabsContent>
           
-          {/* Onglet Blog */}
           <TabsContent value="blog" className="space-y-4 pt-4">
             <div className="flex justify-between items-center">
               <h3 className="text-lg font-medium">Articles de blog</h3>
@@ -201,7 +233,6 @@ export default function SiteDetail() {
             </Card>
           </TabsContent>
           
-          {/* Onglet Utilisateurs */}
           <TabsContent value="users" className="space-y-4 pt-4">
             <div className="flex justify-between items-center">
               <h3 className="text-lg font-medium">Utilisateurs du site</h3>
