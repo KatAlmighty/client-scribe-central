@@ -1,16 +1,7 @@
-
 // Types d'utilisateurs
 export type UserRole = "AdminAgence" | "ClientEditor";
 
-export interface User {
-  id: string;
-  email: string;
-  name: string;
-  avatar_url?: string;
-  created_at: string;
-}
-
-export interface UserRole {
+export interface UserRoleAssignment {
   id: string;
   user_id: string;
   site_id: string;
