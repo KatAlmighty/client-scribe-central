@@ -13,11 +13,11 @@ import {
   DropdownMenuSeparator 
 } from "@/components/ui/dropdown-menu";
 import { Plus, MoreVertical, Edit, Trash, ExternalLink, Copy, Users, Link as LinkIcon } from "lucide-react";
+import FrontendProjectLinkColumn from "@/components/admin/sites/FrontendProjectLinkColumn";
 
 export default function Sites() {
   const [searchTerm, setSearchTerm] = useState("");
   
-  // Données fictives pour la démo
   const sites = [
     { 
       id: "1", 
@@ -83,7 +83,6 @@ export default function Sites() {
           </Button>
         </div>
         
-        {/* Recherche */}
         <div className="flex items-center space-x-2">
           <Input
             placeholder="Rechercher un site..."
@@ -93,7 +92,6 @@ export default function Sites() {
           />
         </div>
         
-        {/* Liste des sites */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {filteredSites.map((site) => (
             <Card key={site.id} className="overflow-hidden">
@@ -157,26 +155,12 @@ export default function Sites() {
                     <span className="font-medium text-slate-500 w-24">Articles:</span>
                     <span>{site.postsCount} articles</span>
                   </div>
-                  {/* Colonne Projet frontend lié */}
                   <div className="flex items-center text-sm">
                     <span className="font-medium text-slate-500 w-24 flex items-center gap-1">
                       <LinkIcon size={14} />
                       Frontend :
                     </span>
-                    {site.frontend_project_url 
-                      ? (
-                        <a
-                          href={site.frontend_project_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center text-green-700 hover:underline gap-1"
-                        >
-                          Oui
-                          <ExternalLink size={14} className="ml-1" />
-                        </a>
-                      )
-                      : <span className="text-slate-400">Non</span>
-                    }
+                    <FrontendProjectLinkColumn frontendProjectUrl={site.frontend_project_url} />
                   </div>
                 </div>
               </CardContent>

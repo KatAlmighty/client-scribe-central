@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Plus, ExternalLink, User, Mail, Eye, EyeOff, Edit, ArrowRight, Link as LinkIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import FrontendProjectLinkField from "@/components/admin/sites/FrontendProjectLinkField";
 
 export default function SiteDetail() {
   const { siteId } = useParams<{ siteId: string }>();
@@ -120,26 +121,7 @@ export default function SiteDetail() {
                 
                 <div className="space-y-2">
                   <Label htmlFor="frontend-url">URL projet frontend (Lovable)</Label>
-                  <div className="flex gap-2">
-                    <Input
-                      id="frontend-url"
-                      placeholder="https://mon-projet-frontend.lovable.app"
-                      value={frontendUrl}
-                      onChange={e => setFrontendUrl(e.target.value)}
-                    />
-                    {frontendUrl && (
-                      <Button variant="outline" asChild>
-                        <a href={frontendUrl} target="_blank" rel="noopener noreferrer">
-                          <ExternalLink size={16} className="mr-1" />
-                          Ouvrir
-                        </a>
-                      </Button>
-                    )}
-                  </div>
-                  <p className="text-xs text-slate-500">
-                    Lien vers le projet Lovable servant de frontend public.<br />
-                    Laissez vide si aucun n'est lié pour l'instant.
-                  </p>
+                  <FrontendProjectLinkField value={frontendUrl} onChange={setFrontendUrl} />
                 </div>
               </CardContent>
             </Card>
