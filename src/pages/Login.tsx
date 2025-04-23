@@ -72,9 +72,7 @@ export default function Login() {
         
         <div className="text-center text-sm">
           <span className="text-slate-500">Pour créer un compte, vous devez d'abord avoir reçu une invitation</span>
-          <a href="/invitation" className="text-brand hover:underline">
-            Créer votre compte
-          </a>
+          <a href="/invitation" className="text-brand hover:underline"></a>
         </div>
       </div>
     </AuthLayout>;
